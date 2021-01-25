@@ -36,6 +36,8 @@ def encrypt(student,file):
     ciphertext, tag = cipher_aes.encrypt_and_digest(data)
     [ file_out.write(x) for x in (enc_session_key, cipher_aes.nonce, tag, ciphertext) ]
     file_out.close()
+    test = (enc_session_key, cipher_aes.nonce, tag, ciphertext)
+    return test
 
 def decrypt(student):
     file_in = open(f"{student}.code", "rb")
@@ -54,6 +56,22 @@ def decrypt(student):
     data = cipher_aes.decrypt_and_verify(ciphertext, tag)
     print(data.decode("utf-8"))
 
+def decrypt_string(string):
+    private_key = RSA.import_key(open("keys/private.key").read())
+    enc_session_key, nonce, tag, ciphertext = [x for x in string]
+
+    cipher_rsa = PKCS1_OAEP.new(private_key)
+    session_key = cipher_rsa.decrypt(enc_session_key)
+
+    # Decrypt the data with the AES session key
+    cipher_aes = AES.new(session_key, AES.MODE_EAX, nonce)
+    data = cipher_aes.decrypt_and_verify(ciphertext, tag)
+    print(data.decode("utf-8"))
+    return data.decode("utf-8")
+
+
+
 #generate_keys()
-#encrypt('encryption/stem_app','test.txt')
-decrypt('encryption/stem_app')
+#test = encrypt('encryption/stem_app','test.txt')
+#decrypt('encryption/stem_app')
+#decrypt_string(test)
