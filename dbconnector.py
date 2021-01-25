@@ -7,7 +7,6 @@ def get_cursor():
     conn = sqlite3.connect('stemapp.db')
 
     c = conn.cursor()
-
     return c
 
 
