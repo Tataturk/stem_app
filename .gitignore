@@ -129,5 +129,5 @@ dmypy.json
 .pyre/
 
 .vscode/
-.documentation/
+documentation/
 *.db-journal

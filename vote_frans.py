@@ -22,7 +22,7 @@ def sign(data, signer=gSigner, sfx='.prv'):
     sign = b''
     # Calculate the signature of the data using a prvKey, sha256, pkcs1 en rsa-2048
     # Student Work {{
-    with io.open(signer+'.prv', "rb") as fp:
+    with io.open('keys/'+signer+'.prv', "rb") as fp:
         prvKey = serialization.load_pem_private_key(fp.read(), password=None)
     sign = prvKey.sign(
         data,
@@ -200,9 +200,9 @@ if __name__ == '__main__':
 
     voting = Vote()
     if cmd == 'create':
-        vote.create()
+        voting.create()
     if cmd == 'vote':
-        reciept = voting.vote(voteId, candId)
+        reciept = voting.vote(persId, candId)
         if reciept: print(reciept)
     if cmd == 'res':
         voting.audit()
