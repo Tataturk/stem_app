@@ -132,3 +132,7 @@ dmypy.json
 documentation/
 encryption/
 *.db-journal
+
+#keys
+keys/private.key
+keys/public.pub
