@@ -37,14 +37,6 @@ from vote import Vote
 import sqlite3
 
 
-def calc_hash():
-    bytes = f.read()
-    hash = SHA256.new(bytes)
-    with open(f"{student}.hash", 'w') as g:
-        g.write(hash.hexdigest())
-    return hash
-
-
 if __name__ == '__main__':
     cmd = ''
     opts, args = getopt.getopt(sys.argv[1:], 'hp:c:', [ 'create', 'vote', 'res', 'stat', 'delete' ])

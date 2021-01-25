@@ -14,8 +14,10 @@ def reset_db():
     curs = get_cursor()
     curs.execute("DROP TABLE IF EXISTS casts")
     curs.execute("DROP TABLE IF EXISTS voted")
+    curs.execute("DROP TABLE IF EXISTS hashes")
 
-    curs.execute("CREATE TABLE casts(mdwID TEXT, timestamp TEXT)")
-    curs.execute("CREATE TABLE voted(studNr INTEGER)")
+    #curs.execute("CREATE TABLE casts(mdwID TEXT, timestamp TEXT)")
+    #curs.execute("CREATE TABLE voted(studNr INTEGER)")
+    #curs.execute("CREATE TABLE hashes(hash TEXT)")zd
 
     curs.close()

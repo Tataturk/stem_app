@@ -1,5 +1,5 @@
 from dbconnector import get_cursor
-
+from encryption import generate_keys
 class Vote():
     
     _voters = []
@@ -9,11 +9,20 @@ class Vote():
         #Check state
         curs = get_cursor()
         curs.execute("SELECT name FROM sqlite_master WHERE type='table' AND name='casts';")
-        if curs.fetchone()[0]==1 : 
+        if curs.fetchone()[0]=='casts' :
             print('Table exists.')
+            self._voters = [voters[0] for voters in curs.execute("SELECT studNr FROM voted")]
+            self._casts = [voters[0] for voters in curs.execute("SELECT studNr FROM voted")]
+        
+            print(self._voters)
+        else:
+            #Generate new public private keys
+            generate_keys()
 
         
-
     def vote(self, voteId, candId):
         if voteId in self._voters:
             pass
+
+
+voter = Vote()
