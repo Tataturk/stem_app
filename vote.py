@@ -1,7 +1,7 @@
 import datetime
 import sqlite3
 from vote_frans import loadCandidates, loadVoters
-from dbconnector import get_cursor
+from dbconnector import delete_db, get_cursor
 from encryption import decrypt_string, encrypt_string, generate_keys
 
 
@@ -48,7 +48,22 @@ class Vote():
             print(eVoteId)
             curs.execute("INSERT INTO voted(studNr) VALUES (?)",(sqlite3.Binary(eVoteId),))
             conn.commit()
-            
-            
-
             return f'Voter: {voteId} voted {candId} at {now}'
+
+            
+            
+    def delete(self):
+        delete_db()
+        print("Lists deleted")
+
+    def create(self):
+        delete_db()
+        print("Lists deleted")
+
+    
+    def res(self):
+        pass
+
+
+
+            
