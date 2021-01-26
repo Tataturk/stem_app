@@ -31,6 +31,7 @@
 #TODO
 # Database
 # Setup a database and connector. Class for easy access?
+from encryption import decrypt_string
 import getopt
 import sys
 from vote import Vote
@@ -65,7 +66,7 @@ if __name__ == '__main__':
     if cmd == 'vote':
         try:
             receipt = voting.vote(persId,candId)
-            print(receipt)
+            print(decrypt_string(receipt))
             #print(f'{persId} wait for voting on {candId}')
         except NameError:
             print("Missing arguments.")

@@ -1,7 +1,7 @@
 import datetime
 import sqlite3
 from vote_frans import loadCandidates, loadVoters
-from dbconnector import delete_db, get_cursor
+from dbconnector import create_db, delete_db, get_cursor
 from encryption import decrypt_string, encrypt_string, generate_keys
 
 
@@ -29,6 +29,7 @@ class Vote():
             print(self._voters)
         else:
             #Generate new public private keys
+            create_db()
             generate_keys()
         curs.close()
 
@@ -49,8 +50,9 @@ class Vote():
             eVoteId = encrypt_string(voteId)
             print(eVoteId)
             curs.execute("INSERT INTO voted(studNr) VALUES (?)",(sqlite3.Binary(eVoteId),))
+            curs.execute("INSERT INTO casts(mdwID) VALUES (?)",(candId,))
             conn.commit()
-            return f'Voter: {voteId} voted {candId} at {now}'
+            return encrypt_string(f'Voter: {voteId} voted {candId} at {now}')
 
             
             
