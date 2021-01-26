@@ -22,7 +22,7 @@ def delete_db():
 
 def create_db():
     curs, __ = get_connection
-    curs.execute("CREATE TABLE casts(mdwID TEXT, timestamp TEXT)")
+    curs.execute("CREATE TABLE casts(mdwID TEXT")
     curs.execute("CREATE TABLE voted(studNr BLOB)")
     curs.execute("CREATE TABLE hashes(hash TEXT)")
     curs.close()
