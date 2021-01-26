@@ -2,7 +2,7 @@ import datetime
 import sqlite3
 from vote_frans import loadCandidates, loadVoters
 from dbconnector import delete_db, get_cursor
-from encryption import decrypt_string, encrypt_string, generate_keys remove_keys
+from encryption import decrypt_string, encrypt_string, generate_keys, remove_keys
 
 
 class Vote():
