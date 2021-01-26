@@ -64,7 +64,9 @@ if __name__ == '__main__':
         print('bro this shit aint working yet. please wait....')
     if cmd == 'vote':
         try:
-            print(f'{persId} wait for voting on {candId}')
+            receipt = voting.vote(persId,candId)
+            print(receipt)
+            #print(f'{persId} wait for voting on {candId}')
         except NameError:
             print("Missing arguments.")
     if cmd == 'res':
