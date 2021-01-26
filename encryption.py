@@ -95,7 +95,6 @@ def decrypt_string(string):
     # Decrypt the data with the AES session key
     cipher_aes = AES.new(session_key, AES.MODE_EAX, nonce)
     data = cipher_aes.decrypt_and_verify(ciphertext, tag)
-    print(data.decode("utf-8"))
     return data.decode("utf-8")
 
 #generate_keys()
