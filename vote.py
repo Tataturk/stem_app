@@ -24,5 +24,33 @@ class Vote():
         if voteId in self._voters:
             pass
 
+    def delete(self):
+        curs = get_cursor()
+        curs.execute("SELECT name FROM sqlite_master WHERE type='table' AND name='voted'")
+        if curs.fetchone()[0]==1 :
+            print("List found, deleting...")
+            curs.execute("DROP table voted;")
+            curs.commit()
+            curs.close()
+            print("List deleted")
+        else:
+            print("No voted list found, Please create one using '-new'")
+
+    def create(self):
+        curs = get_cursor()
+        curs.execute("SELECT name FROM sqlite_master WHERE type='table' AND name='voted'")
+        if curs.fetchone()[0]==1 :
+            print("List found, starting reset")
+            curs.execute("DROP table voted;")
+            print("List removed. Creating new list")
+            curs.execute("CREATE TABLE voted(studNr TEXT)")
+            curs.commit()
+            curs.close()
+        else:
+            print("Creating new list")
+            curs.execute("CREATE TABLE voted(studNr TEXT)")
+            curs.commit()
+            curs.close()
+
 
 voter = Vote()
