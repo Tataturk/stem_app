@@ -38,7 +38,9 @@ class Vote():
         
     def vote(self, voteId, candId):
         if voteId in self._voters:
-            pass
+            #TODO
+            # some checks
+            exit()
 
         print(voteId)
         now = datetime.datetime.now()
