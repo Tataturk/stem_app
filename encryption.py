@@ -39,6 +39,21 @@ def encrypt(student,file):
     test = enc_session_key+ cipher_aes.nonce+ tag+ ciphertext
     return test
 
+def encrypt_string(data):
+    session_key = get_random_bytes(16)
+    frans_key = RSA.import_key(open("keys/public.pub").read())
+
+    #encoded key write to file
+    cipher_rsa = PKCS1_OAEP.new(frans_key)
+    enc_session_key = cipher_rsa.encrypt(session_key)
+
+    #encrypt met aes session key
+    cipher_aes = AES.new(session_key, AES.MODE_EAX)
+    ciphertext, tag = cipher_aes.encrypt_and_digest(data.encode("utf-8"))
+
+    test = enc_session_key+ cipher_aes.nonce+ tag+ ciphertext
+    return test
+
 def decrypt(student):
     file_in = open(f"{student}.code", "rb")
 
@@ -79,6 +94,7 @@ def decrypt_string(string):
 
 
 #generate_keys()
-test = encrypt('encryption/stem_app','test.txt')
+encrypt_string("test test")
+#test = encrypt('encryption/stem_app','test.txt')
 #decrypt('encryption/stem_app')
-decrypt_string(test)
+#decrypt_string(test)
