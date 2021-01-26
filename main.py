@@ -62,6 +62,7 @@ if __name__ == '__main__':
 
     voting = Vote()
     if cmd == 'create':
+        voting.create()
         print('bro this shit aint working yet. please wait....')
     if cmd == 'vote':
         try:
