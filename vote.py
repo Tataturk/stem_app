@@ -47,8 +47,9 @@ class Vote():
             eVoteId = encrypt_string(voteId)
             print(eVoteId)
             curs.execute("INSERT INTO voted(studNr) VALUES (?)",(sqlite3.Binary(eVoteId),))
+            curs.execute("INSERT INTO casts(mdwID) VALUES (?)",(candId,))
             conn.commit()
-            return f'Voter: {voteId} voted {candId} at {now}'
+            return encrypt_string(f'Voter: {voteId} voted {candId} at {now}')
 
             
             
