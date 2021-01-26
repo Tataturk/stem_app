@@ -2,7 +2,7 @@ import datetime
 import sqlite3
 from vote_frans import loadCandidates, loadVoters
 from dbconnector import delete_db, get_cursor
-from encryption import decrypt_string, encrypt_string, generate_keys
+from encryption import decrypt_string, encrypt_string, generate_keys remove_keys
 
 
 class Vote():
@@ -54,14 +54,18 @@ class Vote():
             
     def delete(self):
         delete_db()
+        remove_keys()
         print("Lists deleted")
 
     def create(self):
         delete_db()
+        remove_keys()
         print("Lists deleted")
 
     
     def res(self):
+        curs.execute("SELECT name FROM sqlite_master WHERE type='table' AND name='casts';")
+        print()
         pass
 
 

@@ -1,3 +1,4 @@
+import os
 from Crypto.PublicKey import RSA
 from Crypto.Cipher import AES, PKCS1_OAEP
 from Crypto.Random import get_random_bytes
@@ -11,6 +12,12 @@ def generate_keys():
     public_key = key.publickey().export_key()
     with open(f"keys/public.pub", 'wb') as f:
         f.write(public_key)
+
+def remove_keys():
+    if os.path.exists("keys/private.key"):
+        os.remove("keys/private.key")
+    if os.path.exists("keys/public.pub"):
+        os.remove("keys/public.pub")
 
 def encrypt(student,file):
     session_key = get_random_bytes(16)
@@ -90,8 +97,6 @@ def decrypt_string(string):
     data = cipher_aes.decrypt_and_verify(ciphertext, tag)
     print(data.decode("utf-8"))
     return data.decode("utf-8")
-
-
 
 #generate_keys()
 encrypt_string("test test")
