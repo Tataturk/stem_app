@@ -14,14 +14,14 @@ def get_connection():
     return conn
 
 def delete_db():
-    curs = get_cursor()
+    curs, _ = get_cursor()
     curs.execute("DROP TABLE IF EXISTS casts")
     curs.execute("DROP TABLE IF EXISTS voted")
     curs.execute("DROP TABLE IF EXISTS hashes")
     curs.close()
 
 def create_db():
-    curs, __ = get_connection
+    curs, _ = get_connection
     curs.execute("CREATE TABLE casts(mdwID TEXT")
     curs.execute("CREATE TABLE voted(studNr BLOB)")
     curs.execute("CREATE TABLE hashes(hash TEXT)")
