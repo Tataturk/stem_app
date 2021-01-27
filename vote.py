@@ -47,7 +47,7 @@ class Vote():
             v = curs.execute("SELECT COUNT(studNr) FROM voted;")
             c = curs.execute("SELECT COUNT(mdwId) FROM casts;")
             if c == v:
-                print("Votes komen overheen.")
+                print("Votes are counted correctly.")
             else:
                 print("The votes have not been stored correctly or have been manipulated.")
             exit()
