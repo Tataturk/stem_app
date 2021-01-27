@@ -51,6 +51,10 @@ class Vote():
             print(v.fetchone())
             print(c.fetchone())
 
+            if c == v:
+                print("Votes komen overheen.")
+            else:
+                print("The votes have not been stored correctly or have been manipulated.")
             exit()
 
         print(voteId)
