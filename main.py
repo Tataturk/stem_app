@@ -74,7 +74,7 @@ if __name__ == '__main__':
     if cmd == 'res':
         voting.audit()
     if cmd == 'stat':
-        print(voting.stat())
+        print(voting.stats())
     if cmd == 'delete':
         voting.delete()
             
