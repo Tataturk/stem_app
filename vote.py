@@ -74,6 +74,15 @@ class Vote():
         remove_keys()
         print("Lists deleted")
 
+    def stats(self):
+        return {
+                'candidates': len(self.gCandidates),
+                'registrated': len(self.gVoters),
+                'voters': len(self._voters),
+                'casts': len(self._casts),
+                'turn-out': '{:.2f}%'.format((len(self._voters)/len(self.gVoters)*100))
+        }
+
     
     def res(self):
         curs = get_cursor()
