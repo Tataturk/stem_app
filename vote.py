@@ -1,6 +1,7 @@
+import json
+from audit import saveFile, loadCandidates, loadVoters
 import datetime
 import sqlite3
-from vote_frans import loadCandidates, loadVoters
 from dbconnector import create_db, delete_db, get_cursor
 from encryption import decrypt_string, encrypt_string, generate_keys, remove_keys
 
@@ -25,9 +26,10 @@ class Vote():
                 print(e)
 
             self._voters = [decrypt_string(e) for e in _voters]
-            self._casts = [voters[0] for voters in curs.execute("SELECT studNr FROM voted")]
+            self._casts = [voters[0] for voters in curs.execute("SELECT mdwID FROM casts")]
         
             print(self._voters)
+            print(self._casts)
         curs.close()
 
         self.gVoters = loadVoters('voters.csv')
@@ -61,9 +63,7 @@ class Vote():
             curs.execute("INSERT INTO casts(mdwID) VALUES (?)",(candId,))
             conn.commit()
             return encrypt_string(f'Voter: {voteId} voted {candId} at {now}')
-
-            
-            
+   
     def delete(self):
         delete_db()
         remove_keys()
@@ -83,13 +83,16 @@ class Vote():
                 'turn-out': '{:.2f}%'.format((len(self._voters)/len(self.gVoters)*100))
         }
 
-    
     def res(self):
         curs = get_cursor()
         curs.execute("SELECT name FROM sqlite_master WHERE type='table' AND name='casts';")
         print()
         pass
 
+    def audit(self):
+        saveFile('audit_cand.json', json.dumps(self._casts))
+        #saveFile('audit_vote.json', json.dumps(self._voters))
+        #if gDbg: print("DEBUG: saved audit-trail")
 
 
             
