@@ -17,12 +17,12 @@ def delete_db():
     curs, _ = get_cursor()
     curs.execute("DROP TABLE IF EXISTS casts")
     curs.execute("DROP TABLE IF EXISTS voted")
-    curs.execute("DROP TABLE IF EXISTS hashes")
+    #curs.execute("DROP TABLE IF EXISTS hashes")
     curs.close()
 
 def create_db():
-    curs, _ = get_connection
-    curs.execute("CREATE TABLE casts(mdwID TEXT")
+    curs, _ = get_cursor()
+    curs.execute("CREATE TABLE casts(mdwID TEXT)")
     curs.execute("CREATE TABLE voted(studNr BLOB)")
-    curs.execute("CREATE TABLE hashes(hash TEXT)")
+    #curs.execute("CREATE TABLE hashes(hash TEXT)")
     curs.close()
