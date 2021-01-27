@@ -40,6 +40,12 @@ class Vote():
         if voteId in self._voters:
             #TODO
             # some checks
+            curs, __ = get_cursor()
+            v = curs.execute("SELECT COUNT(studNr) FROM voted;")
+            c = curs.execute("SELECT COUNT(mdwId) FROM casts;")
+            print(v.fetchone())
+            print(c.fetchone())
+
             exit()
 
         print(voteId)
@@ -67,6 +73,7 @@ class Vote():
 
     
     def res(self):
+        curs = get_cursor()
         curs.execute("SELECT name FROM sqlite_master WHERE type='table' AND name='casts';")
         print()
         pass
