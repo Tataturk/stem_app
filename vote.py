@@ -43,14 +43,9 @@ class Vote():
             generate_keys()
 
         if voteId in self._voters:
-            #TODO
-            # some checks
             curs, __ = get_cursor()
             v = curs.execute("SELECT COUNT(studNr) FROM voted;")
             c = curs.execute("SELECT COUNT(mdwId) FROM casts;")
-            print(v.fetchone())
-            print(c.fetchone())
-
             if c == v:
                 print("Votes komen overheen.")
             else:
