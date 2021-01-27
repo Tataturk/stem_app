@@ -1,7 +1,7 @@
 import datetime
 import sqlite3
 from vote_frans import loadCandidates, loadVoters
-from dbconnector import delete_db, get_cursor
+from dbconnector import create_db, delete_db, get_cursor
 from encryption import decrypt_string, encrypt_string, generate_keys, remove_keys
 
 
@@ -17,7 +17,8 @@ class Vote():
         #Check state
         curs, __ = get_cursor()
         curs.execute("SELECT name FROM sqlite_master WHERE type='table' AND name='casts';")
-        if curs.fetchone()[0]=='casts' :
+        result = curs.fetchone()
+        if result :
             print('Table exists.')
             _voters = [voters[0] for voters in curs.execute("SELECT studNr FROM voted")]
             for e in _voters:
@@ -27,9 +28,6 @@ class Vote():
             self._casts = [voters[0] for voters in curs.execute("SELECT studNr FROM voted")]
         
             print(self._voters)
-        else:
-            #Generate new public private keys
-            generate_keys()
         curs.close()
 
         self.gVoters = loadVoters('voters.csv')
@@ -37,6 +35,13 @@ class Vote():
 
         
     def vote(self, voteId, candId):
+        curs, conn = get_cursor()
+        curs.execute("SELECT name FROM sqlite_master WHERE type='table' AND name='casts';")
+        result = curs.fetchone()
+        if not result :
+            create_db()
+            generate_keys()
+
         if voteId in self._voters:
             #TODO
             # some checks
@@ -51,7 +56,6 @@ class Vote():
         print(voteId)
         now = datetime.datetime.now()
         if voteId in self.gVoters and candId in self.gCandidates:
-            curs, conn = get_cursor()
             eVoteId = encrypt_string(voteId)
             print(eVoteId)
             curs.execute("INSERT INTO voted(studNr) VALUES (?)",(sqlite3.Binary(eVoteId),))

@@ -98,7 +98,7 @@ def decrypt_string(string):
     return data.decode("utf-8")
 
 #generate_keys()
-encrypt_string("test test")
+#encrypt_string("test test")
 #test = encrypt('encryption/stem_app','test.txt')
 #decrypt('encryption/stem_app')
 #decrypt_string(test)
