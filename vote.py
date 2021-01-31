@@ -27,10 +27,16 @@ class Vote():
             self._voters = [decrypt_string(e) for e in _voters]
             self._casts = [voters[0]
                            for voters in curs.execute("SELECT mdwID FROM casts")]
-        curs.close()
 
-        self.gVoters = loadVoters('voters.csv')
-        self.gCandidates = loadCandidates('candidates.csv')
+        curs.execute("SELECT studNr FROM voters")
+        for t in curs.fetchall():
+            self.gVoters.append(t[0])
+
+        curs.execute("SELECT mdwID FROM candidates")
+        for t in curs.fetchall():
+            self.gCandidates.append(t[0])
+
+        curs.close()
 
     def vote(self, voteId, candId):
         curs, conn = get_cursor()
@@ -53,7 +59,7 @@ class Vote():
             exit()
 
         now = datetime.datetime.now()
-        if voteId in self.gVoters and candId in self.gCandidates:
+        if int(voteId) in self.gVoters and candId in self.gCandidates:
             eVoteId = encrypt_string(voteId)
             curs.execute("INSERT INTO voted(studNr) VALUES (?)",
                          (sqlite3.Binary(eVoteId),))
