@@ -7,7 +7,7 @@ from encryption import decrypt_string, encrypt_string, generate_keys, remove_key
 
 
 class Vote():
-    
+
     _voters = []
     _casts = []
 
@@ -15,19 +15,22 @@ class Vote():
     gCandidates = []
 
     def __init__(self):
-        #Check state
+        # Check state
         curs, __ = get_cursor()
-        curs.execute("SELECT name FROM sqlite_master WHERE type='table' AND name='casts';")
+        curs.execute(
+            "SELECT name FROM sqlite_master WHERE type='table' AND name='casts';")
         result = curs.fetchone()
-        if result :
+        if result:
             print('Table exists.')
-            _voters = [voters[0] for voters in curs.execute("SELECT studNr FROM voted")]
+            _voters = [voters[0]
+                       for voters in curs.execute("SELECT studNr FROM voted")]
             for e in _voters:
                 print(e)
 
             self._voters = [decrypt_string(e) for e in _voters]
-            self._casts = [voters[0] for voters in curs.execute("SELECT mdwID FROM casts")]
-        
+            self._casts = [voters[0]
+                           for voters in curs.execute("SELECT mdwID FROM casts")]
+
             print(self._voters)
             print(self._casts)
         curs.close()
@@ -35,12 +38,12 @@ class Vote():
         self.gVoters = loadVoters('voters.csv')
         self.gCandidates = loadCandidates('candidates.csv')
 
-        
     def vote(self, voteId, candId):
         curs, conn = get_cursor()
-        curs.execute("SELECT name FROM sqlite_master WHERE type='table' AND name='casts';")
+        curs.execute(
+            "SELECT name FROM sqlite_master WHERE type='table' AND name='casts';")
         result = curs.fetchone()
-        if not result :
+        if not result:
             create_db()
             generate_keys()
 
@@ -51,7 +54,8 @@ class Vote():
             if c == v:
                 print("Votes are counted correctly.")
             else:
-                print("The votes have not been stored correctly or have been manipulated.")
+                print(
+                    "The votes have not been stored correctly or have been manipulated.")
             exit()
 
         print(voteId)
@@ -59,11 +63,12 @@ class Vote():
         if voteId in self.gVoters and candId in self.gCandidates:
             eVoteId = encrypt_string(voteId)
             print(eVoteId)
-            curs.execute("INSERT INTO voted(studNr) VALUES (?)",(sqlite3.Binary(eVoteId),))
-            curs.execute("INSERT INTO casts(mdwID) VALUES (?)",(candId,))
+            curs.execute("INSERT INTO voted(studNr) VALUES (?)",
+                         (sqlite3.Binary(eVoteId),))
+            curs.execute("INSERT INTO casts(mdwID) VALUES (?)", (candId,))
             conn.commit()
             return encrypt_string(f'Voter: {voteId} voted {candId} at {now}')
-   
+
     def delete(self):
         delete_db()
         remove_keys()
@@ -76,23 +81,20 @@ class Vote():
 
     def stats(self):
         return {
-                'candidates': len(self.gCandidates),
-                'registrated': len(self.gVoters),
-                'voters': len(self._voters),
-                'casts': len(self._casts),
-                'turn-out': '{:.2f}%'.format((len(self._voters)/len(self.gVoters)*100))
+            'candidates': len(self.gCandidates),
+            'registrated': len(self.gVoters),
+            'voters': len(self._voters),
+            'casts': len(self._casts),
+            'turn-out': '{:.2f}%'.format((len(self._voters)/len(self.gVoters)*100))
         }
 
     def res(self):
         curs = get_cursor()
-        curs.execute("SELECT name FROM sqlite_master WHERE type='table' AND name='casts';")
+        curs.execute(
+            "SELECT name FROM sqlite_master WHERE type='table' AND name='casts';")
         print()
         pass
 
     def audit(self):
         saveFile('audit_cand.json', json.dumps(self._casts))
-        #saveFile('audit_vote.json', json.dumps(self._voters))
-        #if gDbg: print("DEBUG: saved audit-trail")
-
-
-            
+        saveFile('audit_vote.json', json.dumps(self._voters))
