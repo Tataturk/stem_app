@@ -129,4 +129,10 @@ dmypy.json
 .pyre/
 
 .vscode/
-.documentation/
+documentation/
+encryption/
+*.db-journal
+
+#keys
+keys/private.key
+keys/public.pub
