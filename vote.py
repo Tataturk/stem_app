@@ -64,12 +64,12 @@ class Vote():
     def delete(self):
         delete_db()
         remove_keys()
-        print("Lists deleted")
+        print("Session reset")
 
     def create(self):
         delete_db()
         remove_keys()
-        print("Lists deleted")
+        print("Session reset")
 
     def stats(self):
         return {
