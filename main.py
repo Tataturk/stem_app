@@ -29,12 +29,10 @@ if __name__ == '__main__':
     voting = Vote()
     if cmd == 'create':
         voting.create()
-        print('bro this shit aint working yet. please wait....')
     if cmd == 'vote':
         try:
             receipt = voting.vote(persId,candId)
             print(decrypt_string(receipt))
-            #print(f'{persId} wait for voting on {candId}')
         except NameError:
             print("Missing arguments.")
     if cmd == 'res':
